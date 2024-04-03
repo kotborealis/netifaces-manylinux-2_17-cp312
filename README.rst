@@ -1,24 +1,19 @@
 netifaces 0.10.8
 ================
 
-+-------------+------------------+
-| Linux/macOS | |BuildStatus|    |
-+-------------+------------------+
-| Windows     | |WinBuildStatus| |
-+-------------+------------------+
+Experimenting with netifaces to get a build for manylinux-2_17 and cp312.
+Use approximately as follows:
 
-.. |BuildStatus| image:: https://travis-ci.org/al45tair/netifaces.svg?branch=master
-   :target: https://travis-ci.org/al45tair/netifaces
-   :alt: Build Status (Linux/Mac)
+* `$ docker build . --network host --progress=plain -t manylinux2014-3.12`
+* `$ docker run --rm -v $(pwd):$(pwd) -w $(pwd) --network host manylinux2014-3.12 bash -c 'python3 -m pip wheel ./ -w ./wheelhouse'`
+* `$ auditwheel repair wheelhouse/netifaces-0.11.0-cp312-cp312-linux_x86_64.whl  --plat manylinux_2_17_x86_64`
 
-.. |WinBuildStatus| image:: https://ci.appveyor.com/api/projects/status/3ctn1bl0aigpfjoo/branch/master?svg=true
-   :target: https://ci.appveyor.com/project/al45tair/netifaces/branch/master
-   :alt: Build Status (Windows)
-
-.. warning::
-
-   netifaces needs a new maintainer.  al45tair is no longer able to maintain it
-   or make new releases due to work commitments.
+TODO:
+* Build patchelf into docker image
+    * Steal from another container
+      or build manually from ground, requires building or stealing another gcc.
+* Add auditwheel into docker image
+* Add scripts
 
 1. What is this?
 ----------------
